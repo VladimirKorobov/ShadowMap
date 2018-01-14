@@ -224,8 +224,8 @@ int main( int argc, char** argv )
 	glm::mat4 modelMat({ 1.0 });
 	
 	glEnable(GL_DEPTH_TEST);  GL_CHECK_ERRORS;
+	glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f); GL_CHECK_ERRORS;
-
 	do
 	{
 		//считаем сколько времени прошло за кадр
@@ -242,23 +242,35 @@ int main( int argc, char** argv )
 		glm::mat4 viewMat = camera.GetViewMatrix();
 		glm::mat4 proectionMat = glm::perspective(float(camera.zoom / 180.0f * M_PI), float(windowWidth / windowHeight), 0.1f, 1000.0f);
 		glm::mat3 normalMat = glm::mat3(transpose(inverse(modelMat)));
+
+		vec3 n(0, 1, 0);
+		float D = 10;
+		vec3 p1(0, 1, 0);
+		vec3 eye(camera.pos);
+
+		float t = (D - dot(eye, n)) / dot(p1 - eye, n);
+		vec3 p = (p1 - eye) * t + eye;
+
+		vec4 p1View = viewMat * vec4(p1, 1);
+		vec4 pView = viewMat * vec4(p, 1);
+
 		
 		glm::mat4 MVMatrix = viewMat * modelMat;
 
 		glm::vec3 lightPosNormalized = normalize(lightPos);
 
+		glBindFramebuffer(GL_FRAMEBUFFER, shadowMap.GetDepthFBO());
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 		glDisable(GL_BLEND);
-
 		glViewport(0, 0, windowWidth, windowHeight);
-		glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////
+		// Draw landscape
 		programMain.StartUseShader();
-
 		glDisable(GL_BLEND);
-
 		programMain.SetUniform("ModelMat", modelMat);
 		programMain.SetUniform("NormalMat", normalMat);
 		programMain.SetUniform("VPMat", proectionMat * viewMat);
@@ -269,6 +281,12 @@ int main( int argc, char** argv )
 		glBindVertexArray(0); GL_CHECK_ERRORS;
 		programMain.StopUseShader();
 		/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		// Copy depth
+		glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, shadowMap.GetDepthFBO());
+		glBlitFramebuffer(0, 0, windowWidth, windowHeight, 0, 0, windowWidth, windowHeight,
+			GL_DEPTH_BUFFER_BIT, GL_NEAREST);
 
 		// Setup wave
 		/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -292,8 +310,6 @@ int main( int argc, char** argv )
 		// Water shadow
 		/////////////////////////////////////////////////////////////////////////////////////////////////////
 		glBindFramebuffer(GL_FRAMEBUFFER, shadowMap.GetDepthFBO());
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		
 		programWaterShadow.StartUseShader();
 
 		programWaterShadow.SetUniform("ModelMat", modelMat);
@@ -313,15 +329,15 @@ int main( int argc, char** argv )
 
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////
-
 		// Copy depth
 		/*
 		glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, shadowMap.GetDepthFBO());
 		glBlitFramebuffer(0, 0, windowWidth, windowHeight, 0, 0, windowWidth, windowHeight,
 			GL_DEPTH_BUFFER_BIT, GL_NEAREST);
-		*/
+			*/
 
+		/////////////////////////////////////////////////////////////////////////////////////////////////////
 		// Water
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glEnable(GL_BLEND);

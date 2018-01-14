@@ -48,7 +48,7 @@ void main()
 			vec3 refracted = crossWater + alongWater * Refraction;
 
 			vsAlpha = length(vec3(gl_Position) - refracted) / 20;
-			if(vsAlpha > 0.999) vsAlpha = 0.999;
+			if(vsAlpha > 0.99) vsAlpha = 0.99;
 
 			gl_Position = vec4(refracted , 1);
 			vsNormal = NormalMat * vec3(0, 1, 0);

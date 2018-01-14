@@ -28,6 +28,7 @@ void main(void)
 			}
 		}
 	}
+
 	if(amax < vsPosition.z - 0.001)
 	{
 		discard;
@@ -37,7 +38,7 @@ void main(void)
 
 	if(vsAlpha < 0.1)
 	{
-		vec4 white = vec4(1, 1 , 1, vsAlpha * 10);
+		vec4 white = vec4(1, 1 , 1, vsAlpha * 20);
 		float t = vsAlpha * 10;
 		color = color * t + white * (1 - t);
 	}

@@ -1,0 +1,21 @@
+﻿Build started 14.01.2018 16:22:20.
+     1>Project "D:\github\ShadowMap\ShadowMap\ShadowMap.vcxproj" on node 2 (Build target(s)).
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets(357,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
+     1>ClCompile:
+         D:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ID:\tmp\ShadowMap\externals\ /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
+         main.cpp
+     1>d:\github\shadowmap\shadowmap\main.cpp(294): warning C4305: '+=' : truncation from 'double' to 'float'
+       Link:
+         D:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\github\ShadowMap\ShadowMap\Bin\ShadowMap.exe" /INCREMENTAL /NOLOGO /LIBPATH:D:\tmp\ShadowMap\externals\glfw\lib glfw3.lib opengl32.lib glu32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\github\ShadowMap\ShadowMap\Bin\ShadowMap.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\github\ShadowMap\ShadowMap\Bin\ShadowMap.lib" /MACHINE:X86 Debug\Camera.obj
+         Debug\glad.obj
+         Debug\main.obj
+         Debug\ShaderProgram.obj
+         Debug\shadowmap.obj
+         Debug\Shape.obj
+         Debug\stdafx.obj
+         ShadowMap.vcxproj -> D:\github\ShadowMap\ShadowMap\Bin\ShadowMap.exe
+     1>Done Building Project "D:\github\ShadowMap\ShadowMap\ShadowMap.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.05
