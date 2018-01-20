@@ -29,6 +29,7 @@ void main(void)
 		}
 	}
 
+	//float amax = texture2D(depthTexture, vsPosition.xy).x;
 	if(amax < vsPosition.z - 0.001)
 	{
 		discard;
@@ -36,10 +37,10 @@ void main(void)
 
 	color = vec4(0, 0, 1, vsAlpha);
 
-	if(vsAlpha < 0.1)
+	if(vsAlpha < 0.2)
 	{
-		vec4 white = vec4(1, 1 , 1, vsAlpha * 20);
-		float t = vsAlpha * 10;
+		vec4 white = vec4(2, 2, 2, vsAlpha * 10);
+		float t = vsAlpha * 5;
 		color = color * t + white * (1 - t);
 	}
 
